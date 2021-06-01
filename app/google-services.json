@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "684732621461",
+    "firebase_url": "https://inventory-971b8-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "inventory-971b8",
+    "storage_bucket": "inventory-971b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684732621461:android:c5e007769a36af7cd9b19c",
+        "android_client_info": {
+          "package_name": "com.superology.inventory"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "684732621461-3a653qlmuuivgs0n4u4vh1e95ione7f4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.superology.inventory",
+            "certificate_hash": "69eef59fc21461b592b01a2ba16f026999a2ed65"
+          }
+        },
+        {
+          "client_id": "684732621461-clm57ra2tlhl80o0i6hbgg7issc67c35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcCLdTHOs3Hp1wHJKQz-TBYOsl4wUkav8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "684732621461-clm57ra2tlhl80o0i6hbgg7issc67c35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
