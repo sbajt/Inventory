@@ -39,12 +39,12 @@ object FirebaseDataService {
         elementName: String,
         elementStatus: String,
     ) {
-        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus}")
+        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus")
             .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }
 
-    fun removeElement(context: Context?, key: String) {
+    fun deleteElement(context: Context?, key: String) {
         dbRef.child(key).removeValue()
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }

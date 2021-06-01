@@ -32,8 +32,8 @@ class ListFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        initRecyclerView()
         initRefreshView()
+        initRecyclerView()
         initFab()
         observeDataUpdate()
     }
@@ -84,14 +84,13 @@ class ListFragment :
     }
 
     override fun onClick(key: String, name: String, status: String) {
-        if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK) {
-            FirebaseDataService.changeElementStatus(
-                context = context,
-                elementKey = key,
-                elementName = name,
-                elementStatus = status,
-            )
-        }
+        Log.d(TAG, "Open change element status dialog...")
+        /*FirebaseDataService.changeElementStatus(
+            context = context,
+            elementKey = key,
+            elementName = name,
+            elementStatus = status,
+        )*/
     }
 
     private fun initFab() {
@@ -104,13 +103,24 @@ class ListFragment :
     }
 
     private fun initRecyclerView() {
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.addItemDecoration(DividerItemDecoration(context))
-        adapter = RecyclerAdapter(
-            emptyList(),
-            this
-        )
-        recyclerView?.adapter = adapter
+        recyclerView?.run {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(context))
+            adapter = RecyclerAdapter(emptyList(), this@ListFragment)
+        }
+        adapter = recyclerView.adapter as RecyclerAdapter
+        /*ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK && direction == ItemTouchHelper.LEFT)
+                    FirebaseDataService.deleteElement(context, adapter.getItem(viewHolder.adapterPosition).key)
+
+            }
+        }).attachToRecyclerView(recyclerView)*/
     }
 
     private fun initRefreshView() {

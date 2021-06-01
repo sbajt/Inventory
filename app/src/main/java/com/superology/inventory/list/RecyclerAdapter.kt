@@ -66,7 +66,7 @@ class RecyclerAdapter(
         when (items[position].itemType) {
             ItemType.ITEM -> {
                 (holder as ElementViewHolder).bind(
-                    items[position].index.toString(),
+                    items[position].key,
                     items[position].statusName,
                     items[position].status,
                     mode,
@@ -82,14 +82,16 @@ class RecyclerAdapter(
 
     fun initListItems(elementList: List<Element>) {
         items.clear()
-        items.addAll(elementList.mapIndexed { index, status ->
+        items.addAll(elementList.map { status ->
             ListItem(
-                index = index,
                 itemType = ItemType.ITEM,
+                key = status.key,
                 statusName = status.name,
                 status = status.status
             )
         })
         notifyDataSetChanged()
     }
+
+    fun getItem(position: Int) = items[position]
 }

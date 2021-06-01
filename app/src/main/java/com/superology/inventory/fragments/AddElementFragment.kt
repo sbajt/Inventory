@@ -10,27 +10,34 @@ import com.superology.inventory.activities.MainActivity
 import com.superology.inventory.databases.FirebaseDataService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_add_element.*
 
 class AddElementFragment : Fragment(R.layout.fragment_add_element) {
 
     private val TAG = AddElementFragment::class.java.canonicalName
+    private val disposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
+    }
+
     private fun initViews() {
+        (activity as MainActivity).title = getString(R.string.add_element_action_bar_title)
         buttonView?.isEnabled = false
         val nameObservable = RxTextView.textChangeEvents(nameView).skip(1).map { it.text() }
         val statusObservable = RxTextView.textChangeEvents(statusView).skip(1).map { it.text() }
-        Observable.combineLatest(nameObservable, statusObservable) { name, status -> Pair(name, status) }
+        disposable.add(Observable.combineLatest(nameObservable, statusObservable) { name, status -> Pair(name, status) }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 buttonView?.isEnabled = it.first.trim().isNotBlank() && it.second.trim().isNotBlank()
-            }) { Log.e(TAG, it.localizedMessage) }
-        (activity as MainActivity).title = getString(R.string.add_element_action_bar_title)
+            }) { Log.e(TAG, it.message.toString()) })
         buttonView?.setOnClickListener {
             FirebaseDataService.addElement(
                 context = context,
