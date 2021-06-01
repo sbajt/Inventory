@@ -69,7 +69,6 @@ class RecyclerAdapter(
                     items[position].index.toString(),
                     items[position].statusName,
                     items[position].status,
-                    items[position].expirationDateTime,
                     mode,
                     itemActionListener
                 )
@@ -88,8 +87,7 @@ class RecyclerAdapter(
                 index = index,
                 itemType = ItemType.ITEM,
                 statusName = status.name,
-                status = status.status,
-                expirationDateTime = status.expirationDateTime
+                status = status.status
             )
         })
         notifyDataSetChanged()

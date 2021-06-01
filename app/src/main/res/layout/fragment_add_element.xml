@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:layout_margin="@dimen/view_outer_margins">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nameView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_outer_margins"
+        android:hint="@string/hint_add_element_name_field" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/statusView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_outer_margins"
+        android:hint="@string/hint_add_element_status_field" />
+
+    <Button
+        android:id="@+id/buttonView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_outer_margins"
+        android:text="@string/button_add_element_label"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

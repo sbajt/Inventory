@@ -24,4 +24,10 @@
 
     <string name="tag_fragment_list">ListFragment</string>
     <string name="tag_fragment_no_data">NoDataFragment</string>
+
+    <string name="add_element_fragment_tag">AddElementFragment</string>
+    <string name="add_element_action_bar_title">Add element</string>
+    <string name="hint_add_element_name_field">Name</string>
+    <string name="hint_add_element_status_field">Status</string>
+    <string name="button_add_element_label">Add</string>
 </resources>

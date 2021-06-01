@@ -1,8 +1,6 @@
 package com.superology.inventory.models
 
-import org.joda.time.DateTime
-
-data class Element(val key: String, val name: String, var status: String, var expirationDateTime: DateTime?) {
+data class Element(val key: String, val name: String, var status: String) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

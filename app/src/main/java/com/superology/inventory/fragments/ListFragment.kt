@@ -21,7 +21,6 @@ import com.superology.inventory.notifications.NotificationUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_list.*
-import org.joda.time.DateTime
 
 class ListFragment :
     Fragment(R.layout.fragment_list), ListItemActionListener {
@@ -29,11 +28,9 @@ class ListFragment :
     private val TAG = ListFragment::class.java.canonicalName
     private val disposable = CompositeDisposable()
     private lateinit var adapter: RecyclerAdapter
-    private var tabIndex: Int? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tabIndex = arguments?.getInt(MainActivity.KEY_TAB_INDEX)
         setHasOptionsMenu(true)
         initRecyclerView()
         initRefreshView()
@@ -86,21 +83,23 @@ class ListFragment :
         }
     }
 
-    override fun onClick(key: String, name: String, status: String, expirationDateTime: DateTime?) {
+    override fun onClick(key: String, name: String, status: String) {
         if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK) {
             FirebaseDataService.changeElementStatus(
                 context = context,
                 elementKey = key,
                 elementName = name,
                 elementStatus = status,
-                expirationDateTime = expirationDateTime
             )
         }
     }
 
     private fun initFab() {
         fabView?.setOnClickListener {
-            Log.d(TAG, "Open add element wizard")
+            (activity as MainActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AddElementFragment.getInstance())
+                .addToBackStack(getString(R.string.add_element_fragment_tag))
+                .commit()
         }
     }
 

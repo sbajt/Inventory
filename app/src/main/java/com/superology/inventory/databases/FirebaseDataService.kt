@@ -10,7 +10,6 @@ import com.superology.inventory.R
 import com.superology.inventory.models.Element
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.subjects.ReplaySubject
-import org.joda.time.DateTime
 
 object FirebaseDataService {
 
@@ -39,9 +38,8 @@ object FirebaseDataService {
         context: Context?,
         elementName: String,
         elementStatus: String,
-        expirationDateTime: DateTime?
     ) {
-        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus, ${expirationDateTime?.toString("dd/mm/yyyy hh:MM")}")
+        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus}")
             .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }
@@ -56,9 +54,8 @@ object FirebaseDataService {
         elementKey: String,
         elementName: String,
         elementStatus: String,
-        expirationDateTime: DateTime?
     ) {
-        dbRef.child(elementKey).setValue("$elementName, $elementStatus, ${expirationDateTime?.toString("dd/mm/yyyy hh:MM")}")
+        dbRef.child(elementKey).setValue("$elementName, $elementStatus}")
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }
 
@@ -69,12 +66,9 @@ object FirebaseDataService {
                 val data = snapshot.children.map {
                     val tokens = it.value.toString().split(',').map { it.trim() }
                     Element(
-                        it.key ?: "",
-                        tokens[0],
-                        tokens[1],
-                        if (tokens.size >= 3)
-                            if (tokens[2].isBlank()) null else DateTime.parse(tokens[2].trim())
-                        else null
+                        key = it.key ?: "",
+                        name = tokens[0],
+                        status = tokens[1]
                     )
                 }
                 onDataFetch(data)

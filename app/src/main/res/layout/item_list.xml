@@ -1,44 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
-    android:foreground="?android:attr/selectableItemBackground"
-    card_view:cardCornerRadius="@dimen/list_item_bg_radius">
+    android:orientation="horizontal"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+    <TextView
+        android:id="@+id/nameView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginStart="@dimen/list_item_margin"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+        android:layout_gravity="center_vertical"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="@dimen/list_item_primary_text_size"
+        tools:text="Test item" />
 
-        <TextView
-            android:id="@+id/nameView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/list_item_primary_text_size"
-            android:textStyle="bold"
-            tools:text="Test item" />
-
-        <TextView
-            android:id="@+id/dateTimeView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/list_item_secondary_text_size"
-            android:textStyle="italic"
-            tools:text="25.5.2021. 20:00:00" />
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/statusView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|center_vertical"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginStart="@dimen/list_item_margin"
         android:layout_marginEnd="@dimen/list_item_margin"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/list_item_status_text_size"
@@ -46,4 +34,4 @@
         tools:text="5 com" />
 
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
