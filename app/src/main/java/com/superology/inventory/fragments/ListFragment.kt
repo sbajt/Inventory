@@ -18,8 +18,8 @@ import com.superology.inventory.list.DividerItemDecoration
 import com.superology.inventory.list.ListItemActionListener
 import com.superology.inventory.list.RecyclerAdapter
 import com.superology.inventory.notifications.NotificationUtils
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListFragment :

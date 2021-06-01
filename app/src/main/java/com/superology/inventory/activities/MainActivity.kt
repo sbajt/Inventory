@@ -6,14 +6,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.superology.inventory.R
 import com.superology.inventory.databases.FirebaseDataService
-import com.superology.inventory.fragments.NoDataFragment
 import com.superology.inventory.fragments.ListFragment
+import com.superology.inventory.fragments.NoDataFragment
 import com.superology.inventory.models.Element
 import com.superology.inventory.notifications.NotificationUtils
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
             .subscribeOn(Schedulers.io())
             .filter { !isInstanceStateSaved }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(::setupLayout) { Log.e(TAG, it.message, it) }
+            .subscribe(::setupLayout) { Log.e(TAG, it.message.toString(), it) }
     }
 
     private fun setupLayout(elements: List<Element>?) {

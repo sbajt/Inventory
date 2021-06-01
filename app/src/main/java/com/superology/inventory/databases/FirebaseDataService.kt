@@ -8,8 +8,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.superology.inventory.R
 import com.superology.inventory.models.Element
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.subjects.ReplaySubject
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.ReplaySubject
 
 object FirebaseDataService {
 
