@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.superology.inventory.R
 import com.superology.inventory.models.Element
-import com.superology.list.ElementViewHolder
 
 class RecyclerAdapter(
     elementList: List<Element>,

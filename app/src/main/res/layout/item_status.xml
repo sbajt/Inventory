@@ -42,6 +42,7 @@
         android:layout_marginEnd="@dimen/list_item_margin"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/list_item_status_text_size"
+        android:textStyle="bold"
         tools:text="5 com" />
 
 

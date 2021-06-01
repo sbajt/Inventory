@@ -58,12 +58,14 @@ object FirebaseDataService {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val data = snapshot.children.map {
-                    val tokens = it.value.toString().split(',')
+                    val tokens = it.value.toString().split(',').map { it.trim() }
                     Element(
                         it.key ?: "",
                         tokens[0],
                         tokens[1],
-                        if (tokens[2].trim() == "null") null else DateTime.parse(tokens[2].trim())
+                        if (tokens.size >= 3)
+                            if (tokens[2].isBlank()) null else DateTime.parse(tokens[2].trim())
+                        else null
                     )
                 }
                 onDataFetch(data)
