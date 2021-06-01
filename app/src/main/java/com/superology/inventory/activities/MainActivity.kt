@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.superology.inventory.R
 import com.superology.inventory.databases.FirebaseDataService
 import com.superology.inventory.fragments.NoDataFragment
-import com.superology.inventory.fragments.StatusListFragment
+import com.superology.inventory.fragments.ListFragment
 import com.superology.inventory.models.Element
 import com.superology.inventory.notifications.NotificationUtils
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
@@ -71,8 +71,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(
                         R.id.fragmentContainer,
-                        StatusListFragment.getInstance(),
-                        getString(R.string.tag_fragment_status)
+                        ListFragment.getInstance(),
+                        getString(R.string.tag_fragment_list)
                     )
                     .commitAllowingStateLoss()
         }

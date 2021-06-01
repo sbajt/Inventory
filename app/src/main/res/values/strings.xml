@@ -3,10 +3,10 @@
     <string name="menu_item_important_title">Send notification</string>
     <string name="menu_edit_list_title">Change edit list mode</string>
 
-    <string name="notification_service_title">Statuses notification service</string>
-    <string name="notification_service_text">Statuses notification service running</string>
-    <string name="notification_channel_id">statuses</string>
-    <string name="notification_topic">statuses</string>
+    <string name="notification_service_title">Inventory notification service</string>
+    <string name="notification_service_text">Inventory notification service running</string>
+    <string name="notification_channel_id">Inventory</string>
+    <string name="notification_topic">Inventory</string>
     <string name="notification_topic_success">Subscribed to topic</string>
     <string name="notification_topic_error">Subscribe to topic failed</string>
     <string name="notification_important_title">Important!</string>
@@ -20,12 +20,8 @@
     <string name="firebase_data_success">Data fetched successfully</string>
     <string name="firebase_data_error">Data fetch error</string>
 
-    <string name="list_item_click_error">List item click error</string>
-
     <string name="label_no_data">No data</string>
 
-    <string name="tag_fragment_status_list">StatusListFragment</string>
-    <string name="tag_fragment_status">StatusListFragmentSingle</string>
-    <string name="tag_fragment_view_pager">ViewPagerFragment</string>
+    <string name="tag_fragment_list">ListFragment</string>
     <string name="tag_fragment_no_data">NoDataFragment</string>
 </resources>

@@ -20,13 +20,13 @@ import com.superology.inventory.list.RecyclerAdapter
 import com.superology.inventory.notifications.NotificationUtils
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_status_list.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import org.joda.time.DateTime
 
-class StatusListFragment :
-    Fragment(R.layout.fragment_status_list), ListItemActionListener {
+class ListFragment :
+    Fragment(R.layout.fragment_list), ListItemActionListener {
 
-    private val TAG = StatusListFragment::class.java.canonicalName
+    private val TAG = ListFragment::class.java.canonicalName
     private val disposable = CompositeDisposable()
     private lateinit var adapter: RecyclerAdapter
     private var tabIndex: Int? = null
@@ -108,8 +108,10 @@ class StatusListFragment :
     }
 
     private fun initRefreshView() {
-        refreshView?.isRefreshing = true
-        refreshView?.isEnabled = false
+        refreshView?.isRefreshing = false
+        refreshView?.setOnRefreshListener {
+            FirebaseDataService.refreshData()
+        }
     }
 
     private fun observeDataUpdate() {
@@ -117,6 +119,7 @@ class StatusListFragment :
             FirebaseDataService.dataSubject
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
+                    refreshView?.isRefreshing = false
                     adapter.initListItems(it)
                     activity?.invalidateOptionsMenu()
                 }, {
@@ -133,6 +136,6 @@ class StatusListFragment :
 
     companion object {
 
-        fun getInstance() = StatusListFragment()
+        fun getInstance() = ListFragment()
     }
 }

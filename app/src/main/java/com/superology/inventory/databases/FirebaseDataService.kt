@@ -31,6 +31,10 @@ object FirebaseDataService {
         disposable.dispose()
     }
 
+    fun refreshData() {
+        dataSubject.onNext(items)
+    }
+
     fun setElementStatus(
         context: Context?,
         elementKey: String,
