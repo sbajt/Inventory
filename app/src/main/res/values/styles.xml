@@ -1,24 +1,9 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-    <style name="PagerTabStrip.Text">
-        <item name="android:textSize">@dimen/pager_tab_strip_text_size</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#fefefe</item>
-    </style>
-
-    <style name="PagerTabStrip">
-        <item name="android:background">@color/colorPrimary</item>
-        <item name="android:textAppearance">@style/PagerTabStrip.Text</item>
-        <item name="android:gravity">top</item>
-        <item name="android:paddingTop">@dimen/pager_tab_strip_v_padding</item>
-        <item name="android:paddingBottom">@dimen/pager_tab_strip_v_padding</item>
     </style>
 
 </resources>

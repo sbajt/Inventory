@@ -37,7 +37,7 @@ class RecyclerAdapter(
             ItemType.ITEM.ordinal -> {
                 ElementViewHolder(
                     LayoutInflater.from(parent.context).inflate(
-                        R.layout.item_status,
+                        R.layout.item_list,
                         parent,
                         false
                     )
@@ -46,7 +46,7 @@ class RecyclerAdapter(
             else -> {
                 ElementViewHolder(
                     LayoutInflater.from(parent.context).inflate(
-                        R.layout.item_status,
+                        R.layout.item_list,
                         parent,
                         false
                     )

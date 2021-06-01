@@ -37,6 +37,7 @@ class ListFragment :
         setHasOptionsMenu(true)
         initRecyclerView()
         initRefreshView()
+        initFab()
         observeDataUpdate()
     }
 
@@ -87,13 +88,19 @@ class ListFragment :
 
     override fun onClick(key: String, name: String, status: String, expirationDateTime: DateTime?) {
         if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK) {
-            FirebaseDataService.setElementStatus(
+            FirebaseDataService.changeElementStatus(
                 context = context,
                 elementKey = key,
                 elementName = name,
                 elementStatus = status,
                 expirationDateTime = expirationDateTime
             )
+        }
+    }
+
+    private fun initFab() {
+        fabView?.setOnClickListener {
+            Log.d(TAG, "Open add element wizard")
         }
     }
 

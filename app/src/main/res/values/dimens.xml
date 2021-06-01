@@ -1,21 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_item_margin">12dp</dimen>
     <dimen name="list_item_primary_text_size">18sp</dimen>
     <dimen name="list_item_secondary_text_size">12sp</dimen>
     <dimen name="list_item_status_text_size">22sp</dimen>
-
-    <dimen name="list_header_height">42dp</dimen>
     <dimen name="list_item_height">60dp</dimen>
+    <dimen name="list_item_margin">12dp</dimen>
     <dimen name="list_item_bg_radius">8dp</dimen>
-    <dimen name="list_item_header_margin">30dp</dimen>
-    <dimen name="list_item_margin_first">30dp</dimen>
-    <dimen name="list_item_margin_second">72dp</dimen>
-    <dimen name="list_item_icon_size">24dp</dimen>
-    <dimen name="list_item_text_size">14sp</dimen>
-    <dimen name="list_header_text_size">18sp</dimen>
+    <dimen name="list_margins">12dp</dimen>
 
-    <dimen name="pager_tab_strip_v_padding">12dp</dimen>
-    <dimen name="pager_tab_strip_text_size">16sp</dimen>
     <dimen name="no_data_text_size">16sp</dimen>
 </resources>

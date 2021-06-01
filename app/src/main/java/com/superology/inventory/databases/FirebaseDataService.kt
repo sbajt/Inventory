@@ -35,25 +35,30 @@ object FirebaseDataService {
         dataSubject.onNext(items)
     }
 
-    fun setElementStatus(
+    fun addElement(
+        context: Context?,
+        elementName: String,
+        elementStatus: String,
+        expirationDateTime: DateTime?
+    ) {
+        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus, ${expirationDateTime?.toString("dd/mm/yyyy hh:MM")}")
+            .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
+            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
+    }
+
+    fun removeElement(context: Context?, key: String) {
+        dbRef.child(key).removeValue()
+            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
+    }
+
+    fun changeElementStatus(
         context: Context?,
         elementKey: String,
         elementName: String,
         elementStatus: String,
         expirationDateTime: DateTime?
     ) {
-        setStatusDb(context, elementKey, elementName, elementStatus, expirationDateTime ?: DateTime(0))
-    }
-
-    private fun setStatusDb(
-        context: Context?,
-        elementKey: String,
-        elementName: String,
-        elementStatus: String,
-        expirationTime: DateTime
-    ) {
-        dbRef.child(elementKey).setValue("$elementName, $elementStatus, ${expirationTime.toString("dd/mm/yyyy hh:MM")}")
-            .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
+        dbRef.child(elementKey).setValue("$elementName, $elementStatus, ${expirationDateTime?.toString("dd/mm/yyyy hh:MM")}")
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }
 
