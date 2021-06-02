@@ -1,5 +1,6 @@
 package com.superology.inventory.list
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,9 @@ class RecyclerAdapter(
         ITEM
     }
 
-    var undo = false
+    private val TAG = RecyclerAdapter::class.java.canonicalName
+
+    var isDeleteItemUndoed = false
 
     var mode = ModeType.READ_ONLY
         set(value) {
@@ -30,8 +33,10 @@ class RecyclerAdapter(
 
     private val items = mutableListOf<ListItem>()
 
+    private var tempItemData = Pair<Int, ListItem?>(-1, null)
+
     init {
-        initListItems(elementList)
+        setListItems(elementList)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -82,7 +87,7 @@ class RecyclerAdapter(
         return position.toLong()
     }
 
-    fun initListItems(elementList: List<Element>) {
+    fun setListItems(elementList: List<Element>) {
         items.clear()
         items.addAll(elementList.map { status ->
             ListItem(
@@ -96,4 +101,25 @@ class RecyclerAdapter(
     }
 
     fun getItem(position: Int) = items[position]
+
+    fun removeListItem(position: Int) {
+        Log.d(TAG, position.toString())
+        tempItemData = Pair(position, items[position])
+        isDeleteItemUndoed = false
+        items.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun undoDeleteItem(position: Int) {
+        when {
+            tempItemData.first > -1 && tempItemData.second != null -> {
+                if (items.size > position)
+                    items.add(tempItemData.second!!)
+                else
+                    items.add(tempItemData.first, tempItemData.second!!)
+                isDeleteItemUndoed = true
+            }
+        }
+        notifyItemInserted(position)
+    }
 }

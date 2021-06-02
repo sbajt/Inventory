@@ -87,13 +87,13 @@ class ListFragment :
     }
 
     override fun onClick(key: String, name: String, status: String) {
-        if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
-            FirebaseDataService.changeElementStatus(
-                context = context,
-                elementKey = key,
-                elementName = name,
-                elementStatus = status,
-            )
+//        if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
+//            FirebaseDataService.changeElementStatus(
+//                context = context,
+//                elementKey = key,
+//                elementName = name,
+//                elementStatus = status,
+//            )
     }
 
     private fun initRecyclerView() {
@@ -103,15 +103,23 @@ class ListFragment :
             adapter = RecyclerAdapter(emptyList(), this@ListFragment)
         }
         adapter = recyclerView.adapter as RecyclerAdapter
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
+            override fun isItemViewSwipeEnabled(): Boolean {
+                return when (adapter.mode) {
+                    RecyclerAdapter.ModeType.READ_ONLY -> false
+                    RecyclerAdapter.ModeType.EDIT_ON_CLICK -> true
+                }
+            }
+
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                if (direction == ItemTouchHelper.LEFT) {
-                    showUndoSnackbar(viewHolder.adapterPosition)
+                viewHolder.adapterPosition.run {
+                    showUndoSnackbar(this)
+                    adapter.removeListItem(this)
                 }
             }
         }).attachToRecyclerView(recyclerView)
@@ -137,7 +145,7 @@ class ListFragment :
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     refreshView?.isRefreshing = false
-                    adapter.initListItems(it)
+                    adapter.setListItems(it)
                     activity?.invalidateOptionsMenu()
                 }, {
                     Log.e(TAG, getString(R.string.rx_data_error), it)
@@ -147,26 +155,22 @@ class ListFragment :
 
     private fun showUndoSnackbar(position: Int) {
         activity?.run {
+            Log.d(TAG, position.toString())
             Snackbar.make(
                 this.findViewById(R.id.fragmentContainer), R.string.snack_bar_undo,
                 Snackbar.LENGTH_LONG
-            ).setAction(R.string.snack_bar_undo) { undoDelete(position) }
+            ).setAction(R.string.snack_bar_undo) { adapter.undoDeleteItem(position) }
                 .addCallback(object : Snackbar.Callback() {
 
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
-                        if (!adapter.undo)
+                        if (!adapter.isDeleteItemUndoed)
                             FirebaseDataService.deleteElement(context, adapter.getItem(position).key)
-                        adapter.undo = false
+                        adapter.isDeleteItemUndoed = false
                     }
                 })
                 .show()
         }
-    }
-
-    private fun undoDelete(position: Int) {
-        adapter.undo = true
-        adapter.notifyItemChanged(position)
     }
 
     private fun onImportant() {
