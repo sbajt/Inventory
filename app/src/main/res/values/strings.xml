@@ -29,5 +29,7 @@
     <string name="add_element_action_bar_title">Add element</string>
     <string name="hint_add_element_name_field">Name</string>
     <string name="hint_add_element_status_field">Status</string>
-    <string name="button_add_element_label">Add</string>
+    <string name="button_add_element_label">Submit</string>
+
+    <string name="snack_bar_undo">Undo</string>
 </resources>

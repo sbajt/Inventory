@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.superology.inventory.R
 import com.superology.inventory.databases.FirebaseDataService
+import com.superology.inventory.fragments.AddElementFragment
 import com.superology.inventory.fragments.ListFragment
 import com.superology.inventory.fragments.NoDataFragment
 import com.superology.inventory.models.Element
@@ -14,6 +15,7 @@ import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initFab()
         if (savedInstanceState != null)
             isInstanceStateSaved = true
     }
@@ -47,6 +50,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
+    }
+
+    private fun initFab() {
+        fabView?.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AddElementFragment.getInstance())
+                .addToBackStack(getString(R.string.add_element_fragment_tag))
+                .commit()
+        }
     }
 
     private fun observeData() {

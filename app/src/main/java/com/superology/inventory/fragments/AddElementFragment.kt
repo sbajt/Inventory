@@ -11,6 +11,7 @@ import com.superology.inventory.databases.FirebaseDataService
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_add_element.*
 
 class AddElementFragment : Fragment(R.layout.fragment_add_element) {
@@ -29,7 +30,10 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
     }
 
     private fun initViews() {
-        (activity as MainActivity).title = getString(R.string.add_element_action_bar_title)
+        (activity as? MainActivity)?.run {
+            title = getString(R.string.add_element_action_bar_title)
+            fabView?.visibility = View.GONE
+        }
         buttonView?.isEnabled = false
         val nameObservable = RxTextView.textChangeEvents(nameView).skip(1).map { it.text() }
         val statusObservable = RxTextView.textChangeEvents(statusView).skip(1).map { it.text() }

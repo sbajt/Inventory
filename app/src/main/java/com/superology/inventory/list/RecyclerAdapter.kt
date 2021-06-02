@@ -20,6 +20,8 @@ class RecyclerAdapter(
         ITEM
     }
 
+    var undo = false
+
     var mode = ModeType.READ_ONLY
         set(value) {
             field = value

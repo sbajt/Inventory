@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/list_item_height"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/list_item_height"
     android:orientation="horizontal"
     android:foreground="?android:attr/selectableItemBackground">
 
@@ -18,20 +19,20 @@
         android:ellipsize="marquee"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/list_item_primary_text_size"
-        tools:text="Test item" />
+        tools:text="Test" />
 
 
     <TextView
         android:id="@+id/statusView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="0.4"
         android:layout_gravity="center_vertical|end"
         android:layout_marginStart="@dimen/list_item_margin"
         android:layout_marginEnd="@dimen/list_item_margin"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/list_item_status_text_size"
-        android:textStyle="bold"
-        tools:text="5 com" />
+        tools:text="Testu je lose. Nije mu dobro." />
 
 
 </LinearLayout>
