@@ -28,13 +28,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initFab()
+        observeData()
         if (savedInstanceState != null)
             isInstanceStateSaved = true
-    }
-
-    override fun onStart() {
-        super.onStart()
-        observeData()
     }
 
     override fun onStop() {
@@ -62,11 +58,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        FirebaseDataService.dataSubject
+        disposable.add(FirebaseDataService.dataSubject
             .subscribeOn(Schedulers.io())
             .filter { !isInstanceStateSaved }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(::setupLayout) { Log.e(TAG, it.message.toString(), it) }
+        )
     }
 
     private fun setupLayout(elements: List<Element>?) {

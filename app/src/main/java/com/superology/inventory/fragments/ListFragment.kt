@@ -86,8 +86,9 @@ class ListFragment :
         }
     }
 
-    override fun onClick(key: String, name: String, status: String) {
-//        if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
+    override fun onClick(key: String, name: String, oldStatus: String) {
+        if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
+            EditElementStatusDialogFragment.getInstance(key, name, oldStatus).show(childFragmentManager, EditElementStatusDialogFragment.TAG)
 //            FirebaseDataService.changeElementStatus(
 //                context = context,
 //                elementKey = key,

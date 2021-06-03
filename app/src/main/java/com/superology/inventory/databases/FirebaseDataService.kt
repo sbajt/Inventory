@@ -52,10 +52,9 @@ object FirebaseDataService {
     fun changeElementStatus(
         context: Context?,
         elementKey: String,
-        elementName: String,
-        elementStatus: String,
+        elementStatus: String
     ) {
-        dbRef.child(elementKey).setValue("$elementName, $elementStatus}")
+        dbRef.child(elementKey).setValue("$elementKey, $elementStatus")
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }
 

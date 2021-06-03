@@ -8,7 +8,7 @@
     android:layout_margin="@dimen/view_outer_margins">
 
     <EditText
-        android:id="@+id/nameView"
+        android:id="@+id/nameLabelView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/view_outer_margins"

@@ -32,4 +32,12 @@
     <string name="button_add_element_label">Submit</string>
 
     <string name="snack_bar_undo">Undo</string>
+
+    <string name="dialog_edit_status_title">Edit element status</string>
+    <string name="dialog_edit_status_button_confirm">OK</string>
+    <string name="dialog_edit_status_button_cancel">Cancel</string>
+    <string name="dialog_edit_status_hint">New Status</string>
+
+    <string name="exception_activity_reference">Activity cannot be null</string>
+
 </resources>

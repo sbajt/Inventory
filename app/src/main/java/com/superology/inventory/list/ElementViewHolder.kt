@@ -7,7 +7,7 @@ import com.superology.inventory.R
 
 class ElementViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
-    private val nameView = item.findViewById<TextView?>(R.id.nameView)
+    private val nameView = item.findViewById<TextView?>(R.id.nameLabelView)
     private val statusView = item.findViewById<TextView?>(R.id.statusView)
 
     fun bind(

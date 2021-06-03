@@ -35,7 +35,7 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
             fabView?.visibility = View.GONE
         }
         buttonView?.isEnabled = false
-        val nameObservable = RxTextView.textChangeEvents(nameView).skip(1).map { it.text() }
+        val nameObservable = RxTextView.textChangeEvents(nameLabelView).skip(1).map { it.text() }
         val statusObservable = RxTextView.textChangeEvents(statusView).skip(1).map { it.text() }
         disposable.add(Observable.combineLatest(nameObservable, statusObservable) { name, status -> Pair(name, status) }
             .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +45,7 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
         buttonView?.setOnClickListener {
             FirebaseDataService.addElement(
                 context = context,
-                elementName = nameView.text?.trim().toString(),
+                elementName = nameLabelView.text?.trim().toString(),
                 elementStatus = statusView.text?.trim().toString()
             )
             activity?.onBackPressed()
