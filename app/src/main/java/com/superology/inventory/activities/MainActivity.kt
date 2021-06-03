@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         fabView?.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, AddElementFragment.getInstance())
-                .addToBackStack(getString(R.string.add_element_fragment_tag))
+                .addToBackStack(null)
                 .commit()
         }
     }

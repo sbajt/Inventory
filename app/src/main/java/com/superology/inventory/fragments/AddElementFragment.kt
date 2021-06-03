@@ -21,6 +21,7 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         initViews()
     }
 
@@ -32,6 +33,10 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
     private fun initViews() {
         (activity as? MainActivity)?.run {
             title = getString(R.string.add_element_action_bar_title)
+            actionBar?.run {
+                setHomeButtonEnabled(true)
+                setDisplayHomeAsUpEnabled(true)
+            }
             fabView?.visibility = View.GONE
         }
         buttonView?.isEnabled = false

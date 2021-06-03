@@ -39,7 +39,7 @@ object FirebaseDataService {
         elementName: String,
         elementStatus: String,
     ) {
-        dbRef.child((items.count() + 1).toString()).setValue("$elementName, $elementStatus")
+        dbRef.child((items.maxOf { it.key } + 1)).setValue("$elementName, $elementStatus")
             .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
             .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
     }

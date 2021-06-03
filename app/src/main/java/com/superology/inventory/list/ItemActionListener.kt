@@ -4,4 +4,6 @@ interface ListItemActionListener {
 
     fun onClick(key: String, name: String, oldStatus: String)
 
+    fun onLongPress()
+
 }

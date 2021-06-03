@@ -89,12 +89,14 @@ class ListFragment :
     override fun onClick(key: String, name: String, oldStatus: String) {
         if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
             EditElementStatusDialogFragment.getInstance(key, name, oldStatus).show(childFragmentManager, EditElementStatusDialogFragment.TAG)
-//            FirebaseDataService.changeElementStatus(
-//                context = context,
-//                elementKey = key,
-//                elementName = name,
-//                elementStatus = status,
-//            )
+    }
+
+    override fun onLongPress() {
+        when (adapter.mode) {
+            RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
+            RecyclerAdapter.ModeType.EDIT_ON_CLICK -> adapter.mode = RecyclerAdapter.ModeType.READ_ONLY
+        }
+        activity?.invalidateOptionsMenu()
     }
 
     private fun initRecyclerView() {
