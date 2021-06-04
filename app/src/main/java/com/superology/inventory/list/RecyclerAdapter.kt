@@ -63,7 +63,7 @@ class RecyclerAdapter(
     }
 
     override fun getItemCount() =
-        items.count()
+        items.size
 
     override fun getItemViewType(position: Int): Int {
         return items[position].itemType.ordinal
@@ -89,14 +89,15 @@ class RecyclerAdapter(
 
     fun setListItems(elementList: List<Element>) {
         items.clear()
-        items.addAll(elementList.map { status ->
-            ListItem(
-                itemType = ItemType.ITEM,
-                key = status.key,
-                statusName = status.name,
-                status = status.status
-            )
-        })
+        if (elementList.isNotEmpty())
+            items.addAll(elementList.map { status ->
+                ListItem(
+                    itemType = ItemType.ITEM,
+                    key = status.key,
+                    statusName = status.name,
+                    status = status.status
+                )
+            })
         notifyDataSetChanged()
     }
 

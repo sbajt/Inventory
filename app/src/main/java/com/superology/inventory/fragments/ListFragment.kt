@@ -24,6 +24,7 @@ import com.superology.inventory.notifications.NotificationUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -31,7 +32,9 @@ class ListFragment :
     Fragment(R.layout.fragment_list), ListItemActionListener {
 
     private val TAG = ListFragment::class.java.canonicalName
+    private val snackbarVisivilitySubject = BehaviorSubject.createDefault(true)
     private val disposable = CompositeDisposable()
+    private val snackbarView by lazy { Snackbar.make(requireView(), R.string.tutorial_list_edit_mode, Snackbar.LENGTH_INDEFINITE) }
     private lateinit var adapter: RecyclerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class ListFragment :
         initRecyclerView()
         initFab()
         observeDataUpdate()
+        observeTutorialSnackbar()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -75,6 +79,7 @@ class ListFragment :
                 true
             }
             R.id.editList -> {
+                snackbarVisivilitySubject.onNext(false)
                 when (adapter.mode) {
                     RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
                     RecyclerAdapter.ModeType.EDIT_ON_CLICK -> adapter.mode = RecyclerAdapter.ModeType.READ_ONLY
@@ -92,6 +97,7 @@ class ListFragment :
     }
 
     override fun onLongPress() {
+        snackbarVisivilitySubject.onNext(false)
         when (adapter.mode) {
             RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
             RecyclerAdapter.ModeType.EDIT_ON_CLICK -> adapter.mode = RecyclerAdapter.ModeType.READ_ONLY
@@ -136,8 +142,14 @@ class ListFragment :
     }
 
     private fun initFab() {
-        (activity as? MainActivity)?.run {
-            fabView?.visibility = View.VISIBLE
+        fabView?.setOnClickListener {
+            (activity as? MainActivity)?.run {
+                fabView?.visibility = View.VISIBLE
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, AddElementFragment.getInstance())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
     }
 
@@ -169,11 +181,24 @@ class ListFragment :
                         super.onDismissed(transientBottomBar, event)
                         if (!adapter.isDeleteItemUndoed)
                             FirebaseDataService.deleteElement(context, adapter.getItem(position).key)
+
                         adapter.isDeleteItemUndoed = false
                     }
                 })
                 .show()
         }
+    }
+
+    private fun observeTutorialSnackbar() {
+        disposable.add(snackbarVisivilitySubject
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                if (it)
+                    snackbarView.show()
+                else
+                    snackbarView.dismiss()
+            }) { Log.e(TAG, it.message, it) })
     }
 
     private fun onImportant() {

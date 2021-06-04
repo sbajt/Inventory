@@ -37,7 +37,6 @@ class AddElementFragment : Fragment(R.layout.fragment_add_element) {
                 setHomeButtonEnabled(true)
                 setDisplayHomeAsUpEnabled(true)
             }
-            fabView?.visibility = View.GONE
         }
         buttonView?.isEnabled = false
         val nameObservable = RxTextView.textChangeEvents(nameLabelView).skip(1).map { it.text() }

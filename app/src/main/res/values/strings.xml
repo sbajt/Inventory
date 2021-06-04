@@ -38,6 +38,8 @@
     <string name="dialog_edit_status_button_cancel">Cancel</string>
     <string name="dialog_edit_status_hint">New Status</string>
 
+    <string name="tutorial_list_edit_mode">Long press on list item or click on eye icon to switch into edit mode.</string>
+
     <string name="exception_activity_reference">Activity cannot be null</string>
 
 </resources>
