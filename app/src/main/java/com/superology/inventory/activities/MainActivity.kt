@@ -2,16 +2,13 @@ package com.superology.inventory.activities
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.superology.inventory.R
 import com.superology.inventory.databases.FirebaseDataService
 import com.superology.inventory.fragments.ListFragment
 import com.superology.inventory.notifications.NotificationUtils
 import io.github.inflationx.viewpump.ViewPumpContextWrapper
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,6 +40,16 @@ class MainActivity : AppCompatActivity() {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
+    fun getTutorialShowFlag(): Boolean =
+        getPreferences(MODE_PRIVATE).getBoolean(PREF_KEY_TUTORIAL, true)
+
+
+    fun setTutorialShownFlag() {
+        getPreferences(MODE_PRIVATE).edit()
+            .putBoolean(PREF_KEY_TUTORIAL, false)
+            .apply()
+    }
+
     private fun showFragments() {
         supportFragmentManager.beginTransaction()
             .replace(
@@ -62,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
 
         const val KEY_TAB_INDEX = "tabIndex"
+        const val PREF_KEY_TUTORIAL = "tutorial"
     }
 }
 

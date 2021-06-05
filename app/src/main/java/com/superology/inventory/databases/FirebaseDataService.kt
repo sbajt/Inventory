@@ -46,7 +46,7 @@ object FirebaseDataService {
 
     fun deleteElement(context: Context?, key: String) {
         dbRef.child(key).removeValue()
-            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
+            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_remove_element_error) ?: "") }
     }
 
     fun changeElementStatus(
@@ -56,7 +56,7 @@ object FirebaseDataService {
         elementStatus: String
     ) {
         dbRef.child(elementKey).setValue("$elementName, $elementStatus")
-            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
+            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_change_element_error) ?: "") }
     }
 
     private fun listenForDbUpdate() {

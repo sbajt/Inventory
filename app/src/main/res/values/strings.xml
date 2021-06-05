@@ -21,6 +21,10 @@
     <string name="firebase_data_error">Data fetch error</string>
     <string name="firebase_add_element_success">Element added</string>
     <string name="firebase_add_element_error">Adding element error</string>
+    <string name="firebase_remove_element_success">Element removed</string>
+    <string name="firebase_remove_element_error">Removing element error</string>
+    <string name="firebase_change_element_success">Changing element added</string>
+    <string name="firebase_change_element_error">Changing element error</string>
 
     <string name="label_no_data">No data</string>
 
@@ -40,7 +44,7 @@
     <string name="dialog_edit_status_button_cancel">Cancel</string>
     <string name="dialog_edit_status_hint">New Status</string>
 
-    <string name="tutorial_list_edit_mode">Long press on list item or click on eye icon to switch into edit mode.</string>
+    <string name="tutorial_list_edit_mode">Click on eye icon to switch list into edit mode.</string>
 
     <string name="exception_activity_reference">Activity cannot be null</string>
 

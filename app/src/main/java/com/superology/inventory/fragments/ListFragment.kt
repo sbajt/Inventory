@@ -24,7 +24,7 @@ import com.superology.inventory.notifications.NotificationUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.ReplaySubject
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -32,7 +32,7 @@ class ListFragment :
     Fragment(R.layout.fragment_list), ListItemActionListener {
 
     private val TAG = ListFragment::class.java.canonicalName
-    private val tutorialSnackbarVisibilitySubject = BehaviorSubject.createDefault(true)
+    private val tutorialSnackbarVisibilitySubject = ReplaySubject.create<Boolean>(1)
     private val disposable = CompositeDisposable()
     private val snackbarView by lazy { Snackbar.make(requireView(), R.string.tutorial_list_edit_mode, Snackbar.LENGTH_INDEFINITE) }
     private lateinit var adapter: RecyclerAdapter
@@ -71,6 +71,7 @@ class ListFragment :
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.editList -> {
+                (activity as MainActivity).setTutorialShownFlag()
                 tutorialSnackbarVisibilitySubject.onNext(false)
                 when (adapter.mode) {
                     RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
@@ -145,8 +146,10 @@ class ListFragment :
                     refreshView?.isRefreshing = false
                     adapter.setListItems(it)
                     noDataLabelView?.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
-                    tutorialSnackbarVisibilitySubject.onNext(!it.isNullOrEmpty())
-                    activity?.invalidateOptionsMenu()
+                    (activity as? MainActivity)?.run {
+                        invalidateOptionsMenu()
+                        tutorialSnackbarVisibilitySubject.onNext(!it.isNullOrEmpty() && getTutorialShowFlag())
+                    }
                 }, {
                     Log.e(TAG, getString(R.string.rx_data_error), it)
                 })
@@ -175,6 +178,9 @@ class ListFragment :
     }
 
     private fun observeTutorialSnackbar() {
+        (activity as? MainActivity)?.run {
+            tutorialSnackbarVisibilitySubject.onNext(getTutorialShowFlag())
+        }
         disposable.add(tutorialSnackbarVisibilitySubject
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
