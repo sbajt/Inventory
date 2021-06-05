@@ -19,6 +19,8 @@
     <string name="rx_data_error">Error while observing data from Firebase</string>
     <string name="firebase_data_success">Data fetched successfully</string>
     <string name="firebase_data_error">Data fetch error</string>
+    <string name="firebase_add_element_success">Element added</string>
+    <string name="firebase_add_element_error">Adding element error</string>
 
     <string name="label_no_data">No data</string>
 

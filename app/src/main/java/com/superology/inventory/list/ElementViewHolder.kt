@@ -22,10 +22,6 @@ class ElementViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         itemView.setOnClickListener {
             itemActionListener.onClick(key, name, status)
         }
-        itemView.setOnLongClickListener {
-            itemActionListener.onLongPress()
-            true
-        }
-        itemView.isClickable = (mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
+        itemView.isEnabled = (mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
     }
 }

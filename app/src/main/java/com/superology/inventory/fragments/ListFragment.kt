@@ -32,7 +32,7 @@ class ListFragment :
     Fragment(R.layout.fragment_list), ListItemActionListener {
 
     private val TAG = ListFragment::class.java.canonicalName
-    private val snackbarVisivilitySubject = BehaviorSubject.createDefault(true)
+    private val tutorialSnackbarVisibilitySubject = BehaviorSubject.createDefault(true)
     private val disposable = CompositeDisposable()
     private val snackbarView by lazy { Snackbar.make(requireView(), R.string.tutorial_list_edit_mode, Snackbar.LENGTH_INDEFINITE) }
     private lateinit var adapter: RecyclerAdapter
@@ -54,10 +54,6 @@ class ListFragment :
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.sendImportant)?.isVisible =
-            FirebaseDataService.items.isNullOrEmpty()
-                && !NotificationUtils.hasUserSentImportant
-
         menu.findItem(R.id.editList)?.apply {
             iconTintList =
                 ColorStateList.valueOf(context?.getColor(android.R.color.white) ?: Color.WHITE)
@@ -74,12 +70,8 @@ class ListFragment :
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.sendImportant -> {
-                onImportant()
-                true
-            }
             R.id.editList -> {
-                snackbarVisivilitySubject.onNext(false)
+                tutorialSnackbarVisibilitySubject.onNext(false)
                 when (adapter.mode) {
                     RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
                     RecyclerAdapter.ModeType.EDIT_ON_CLICK -> adapter.mode = RecyclerAdapter.ModeType.READ_ONLY
@@ -94,15 +86,6 @@ class ListFragment :
     override fun onClick(key: String, name: String, oldStatus: String) {
         if (adapter.mode == RecyclerAdapter.ModeType.EDIT_ON_CLICK)
             EditElementStatusDialogFragment.getInstance(key, name, oldStatus).show(childFragmentManager, EditElementStatusDialogFragment.TAG)
-    }
-
-    override fun onLongPress() {
-        snackbarVisivilitySubject.onNext(false)
-        when (adapter.mode) {
-            RecyclerAdapter.ModeType.READ_ONLY -> adapter.mode = RecyclerAdapter.ModeType.EDIT_ON_CLICK
-            RecyclerAdapter.ModeType.EDIT_ON_CLICK -> adapter.mode = RecyclerAdapter.ModeType.READ_ONLY
-        }
-        activity?.invalidateOptionsMenu()
     }
 
     private fun initRecyclerView() {
@@ -128,7 +111,7 @@ class ListFragment :
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 viewHolder.adapterPosition.run {
                     showUndoSnackbar(this)
-                    adapter.removeListItem(this)
+                    adapter.deleteItemWithUndo(this)
                 }
             }
         }).attachToRecyclerView(recyclerView)
@@ -161,6 +144,8 @@ class ListFragment :
                 .subscribe({
                     refreshView?.isRefreshing = false
                     adapter.setListItems(it)
+                    noDataLabelView?.visibility = if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+                    tutorialSnackbarVisibilitySubject.onNext(!it.isNullOrEmpty())
                     activity?.invalidateOptionsMenu()
                 }, {
                     Log.e(TAG, getString(R.string.rx_data_error), it)
@@ -170,19 +155,19 @@ class ListFragment :
 
     private fun showUndoSnackbar(position: Int) {
         activity?.run {
-            Log.d(TAG, position.toString())
             Snackbar.make(
                 this.findViewById(R.id.fragmentContainer), R.string.snack_bar_undo,
                 Snackbar.LENGTH_LONG
-            ).setAction(R.string.snack_bar_undo) { adapter.undoDeleteItem(position) }
+            )
+                .setAction(R.string.snack_bar_undo) { adapter.deleteItemWithUndo(position) }
                 .addCallback(object : Snackbar.Callback() {
 
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
-                        if (!adapter.isDeleteItemUndoed)
+                        if (!adapter.canUndoDeletedItem)
                             FirebaseDataService.deleteElement(context, adapter.getItem(position).key)
 
-                        adapter.isDeleteItemUndoed = false
+                        adapter.canUndoDeletedItem = false
                     }
                 })
                 .show()
@@ -190,7 +175,7 @@ class ListFragment :
     }
 
     private fun observeTutorialSnackbar() {
-        disposable.add(snackbarVisivilitySubject
+        disposable.add(tutorialSnackbarVisibilitySubject
             .subscribeOn(Schedulers.newThread())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

@@ -6,6 +6,15 @@
     android:contentDescription="List"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/noDataLabelView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="@dimen/no_data_text_size"
+        android:visibility="gone"
+        android:text="@string/label_no_data"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refreshView"
         android:layout_width="match_parent"

@@ -1,6 +1,5 @@
 package com.superology.inventory.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +17,13 @@ class RecyclerAdapter(
     }
 
     enum class ItemType {
+
         ITEM
     }
 
     private val TAG = RecyclerAdapter::class.java.canonicalName
 
-    var isDeleteItemUndoed = false
+    var canUndoDeletedItem = false
 
     var mode = ModeType.READ_ONLY
         set(value) {
@@ -33,7 +33,7 @@ class RecyclerAdapter(
 
     private val items = mutableListOf<ListItem>()
 
-    private var tempItemData = Pair<Int, ListItem?>(-1, null)
+    private var tempItemData: Pair<Int, ListItem>? = null
 
     init {
         setListItems(elementList)
@@ -87,9 +87,9 @@ class RecyclerAdapter(
         return position.toLong()
     }
 
-    fun setListItems(elementList: List<Element>) {
+    fun setListItems(elementList: List<Element>?) {
         items.clear()
-        if (elementList.isNotEmpty())
+        if (!elementList.isNullOrEmpty())
             items.addAll(elementList.map { status ->
                 ListItem(
                     itemType = ItemType.ITEM,
@@ -103,24 +103,16 @@ class RecyclerAdapter(
 
     fun getItem(position: Int) = items[position]
 
-    fun removeListItem(position: Int) {
-        Log.d(TAG, position.toString())
-        tempItemData = Pair(position, items[position])
-        isDeleteItemUndoed = false
-        items.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    fun undoDeleteItem(position: Int) {
-        when {
-            tempItemData.first > -1 && tempItemData.second != null -> {
+    fun deleteItemWithUndo(position: Int) {
+        tempItemData?.run {
+            if (this.first > -1)
                 if (items.size > position)
-                    items.add(tempItemData.second!!)
+                    items.add(this.second)
                 else
-                    items.add(tempItemData.first, tempItemData.second!!)
-                isDeleteItemUndoed = true
-            }
+                    items.add(this.first, this.second)
+
+            canUndoDeletedItem = true
+            notifyItemInserted(position)
         }
-        notifyItemInserted(position)
     }
 }

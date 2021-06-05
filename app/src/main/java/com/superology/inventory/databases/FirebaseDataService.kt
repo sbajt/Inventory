@@ -39,9 +39,9 @@ object FirebaseDataService {
         elementName: String,
         elementStatus: String,
     ) {
-        dbRef.child((items.maxOf { it.key } + 1)).setValue("$elementName, $elementStatus")
-            .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_data_success) ?: "") }
-            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_data_error) ?: "") }
+        dbRef.child(if (items.isNullOrEmpty()) "0" else items.maxOf { it.key } + 1).setValue("$elementName, $elementStatus")
+            .addOnCompleteListener { Log.d(TAG, context?.getString(R.string.firebase_add_element_success) ?: "") }
+            .addOnFailureListener { Log.e(TAG, context?.getString(R.string.firebase_add_element_error) ?: "") }
     }
 
     fun deleteElement(context: Context?, key: String) {
